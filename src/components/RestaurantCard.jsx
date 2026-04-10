@@ -1,14 +1,21 @@
-const RestaurantCard = ({ resName, cuisine }) => {
+const RestaurantCard = ({ resData }) => {
+  const { name, avgRatingString, cloudinaryImageId, cuisines, sla } = resData?.info;
+
   return (
     <div className="res-card">
       <img
         className="res-img"
         alt="res-img"
-        src="https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_660/RX_THUMBNAIL/IMAGES/VENDOR/2025/10/28/d770bc78-2637-4ad4-b66f-42dc7c0baea8_614903.JPG"
+        src={`https://media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,w_660/${cloudinaryImageId}`}
       />
-      <h3 className="res-heading">{resName}</h3>
-      <p className="res-cuisines">{cuisine}</p>
-      <p className="res-deliverytime">38 mins</p>
+      <div className="res-content">
+        <h3 className="res-heading">{name}</h3>
+        <p className="res-cuisines">{cuisines?.join(", ")}</p>
+        <div className="res-deliverytime">
+          <div>{sla.deliveryTime} minutes</div>
+          <div>{avgRatingString} Stars</div>
+        </div>
+      </div>
     </div>
   );
 };
