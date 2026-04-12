@@ -16,15 +16,21 @@ const Header = () => {
       </div>
       <div className="nav-items">
         <ul>
-          <Link>
-            <li to={"/"}>Home </li>
-          </Link>
-          <Link to={"/contact"}>
-            <li>Contact </li>
-          </Link>
-          <Link to={"/about"}>
-            <li>About </li>
-          </Link>
+          <li>
+            <Link className="nav-link" to={"/"}>
+              Home
+            </Link>
+          </li>
+          <li>
+            <Link className="nav-link" to={"/contact"}>
+              Contact
+            </Link>
+          </li>
+          <li>
+            <Link className="nav-link" to={"/about"}>
+              About
+            </Link>
+          </li>
           <li>Add to Cart</li>
           <li className="login-li">
             <button onClick={handleBtnClick} className="loginBtn">
