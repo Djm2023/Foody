@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import RestaurantCard from "./RestaurantCard";
 import Shimmer from "../components/Shimmer";
+import { Link } from "react-router-dom";
 
 const Body = () => {
   const [listOfRestaurant, setListOfRestaurant] = useState([]);
@@ -12,29 +13,25 @@ const Body = () => {
   }, []);
 
   const fetchData = async () => {
-    const data = await fetch(
-      "https://www.swiggy.com/dapi/restaurants/list/v5?lat=17.4744988&lng=78.3622895&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING",
-    );
+    const data = await fetch("http://localhost:5000/api/restaurants");
 
     const jsonData = await data.json();
-    const { restaurants } =
-      jsonData?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle;
 
-    console.log(restaurants);
+    console.log(jsonData);
 
-    setListOfRestaurant(restaurants);
-    setFilteredRestaurant(restaurants);
+    setListOfRestaurant(jsonData?.data);
+    setFilteredRestaurant(jsonData?.data);
 
-    console.log(restaurants, "aaaaaaaaaaaaaa");
+    console.log(jsonData?.data, "aaaaaaaaaaaaaa");
   };
 
-  if (listOfRestaurant.length === 0) {
+  if (listOfRestaurant?.length === 0) {
     return <Shimmer />;
   }
 
   const handleSearch = () => {
     const searchedData = listOfRestaurant?.filter((restaurant) =>
-      restaurant.info.name.toLowerCase().includes(searchText.toLowerCase()),
+      restaurant.name.toLowerCase().includes(searchText.toLowerCase()),
     );
 
     if (searchedData?.length > 0) setFilteredRestaurant(searchedData);
@@ -60,7 +57,9 @@ const Body = () => {
       </div>
       <div className="res-container">
         {filteredRestaurant?.map((restaurant) => (
-          <RestaurantCard key={restaurant?.info?.id} resData={restaurant} />
+          <Link key={restaurant?._id} to={"/restaurant/" + restaurant?._id}>
+            <RestaurantCard key={restaurant?._id} resData={restaurant} />
+          </Link>
         ))}
       </div>
     </div>
